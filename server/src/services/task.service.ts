@@ -1,28 +1,33 @@
 import { TaskStatus } from "@prisma/client";
 import taskRepository from "../repositories/task.repository";
+import taskQueue from "../queues/task.queue";
 
 class TaskService {
-  async createTask(
-    title: string,
-    description: string | undefined,
-    scheduledAt: string | undefined,
-    userId: string
-  ) {
-    return taskRepository.create({
-      title,
-      description,
-
-      scheduledAt: scheduledAt
-        ? new Date(scheduledAt)
-        : undefined,
-
-      user: {
-        connect: {
-          id: userId,
-        },
+async createTask(
+  title: string,
+  description: string | undefined,
+  scheduledAt: string | undefined,
+  userId: string
+) {
+  const task = await taskRepository.create({
+    title,
+    description,
+    scheduledAt: scheduledAt
+      ? new Date(scheduledAt)
+      : undefined,
+    user: {
+      connect: {
+        id: userId,
       },
-    });
-  }
+    },
+  });
+
+  taskQueue.add({
+    id: task.id,
+  });
+
+  return task;
+}
 
   async getTasks(
     userId: string,

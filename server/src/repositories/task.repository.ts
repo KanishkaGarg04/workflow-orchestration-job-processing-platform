@@ -117,6 +117,18 @@ async updateByUser(
   });
 }
 
+async updateStatus(
+  id: string,
+  data: Prisma.TaskUpdateInput
+) {
+  return prisma.task.update({
+    where: {
+      id,
+    },
+    data,
+  });
+}
+
 async deleteByUser(id: string, userId: string) {
   return prisma.task.delete({
     where: {
