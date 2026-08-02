@@ -49,39 +49,57 @@ class TaskRepository {
     });
   }
 
-async findById(id: string, userId: string) {
-  return prisma.task.findFirst({
-    where: {
-      id,
-      userId,
-    },
-  });
-}
-
-async update(id: string, userId: string, data: Prisma.TaskUpdateInput) {
-  const task = await this.findById(id, userId);
-
-  if (!task) {
-    throw new Error("Task not found");
+  // Worker uses this
+  async findById(id: string) {
+    return prisma.task.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
-  return prisma.task.update({
-    where: { id },
-    data,
-  });
-}
-
-async delete(id: string, userId: string) {
-  const task = await this.findById(id, userId);
-
-  if (!task) {
-    throw new Error("Task not found");
+  // API uses this
+  async findByIdAndUser(id: string, userId: string) {
+    return prisma.task.findFirst({
+      where: {
+        id,
+        userId,
+      },
+    });
   }
 
-  return prisma.task.delete({
-    where: { id },
-  });
-}
+  async update(
+    id: string,
+    userId: string,
+    data: Prisma.TaskUpdateInput
+  ) {
+    const task = await this.findByIdAndUser(id, userId);
+
+    if (!task) {
+      throw new Error("Task not found");
+    }
+
+    return prisma.task.update({
+      where: {
+        id,
+      },
+      data,
+    });
+  }
+
+  async delete(id: string, userId: string) {
+    const task = await this.findByIdAndUser(id, userId);
+
+    if (!task) {
+      throw new Error("Task not found");
+    }
+
+    return prisma.task.delete({
+      where: {
+        id,
+      },
+    });
+  }
 
   async stats(userId: string) {
     return prisma.task.groupBy({
@@ -94,49 +112,6 @@ async delete(id: string, userId: string) {
       _count: true,
     });
   }
-  async findByIdAndUser(id: string, userId: string) {
-  return prisma.task.findFirst({
-    where: {
-      id,
-      userId,
-    },
-  });
-}
-
-async updateByUser(
-  id: string,
-  userId: string,
-  data: Prisma.TaskUpdateInput
-) {
-  return prisma.task.update({
-    where: {
-      id,
-      userId,
-    },
-    data,
-  });
-}
-
-async updateStatus(
-  id: string,
-  data: Prisma.TaskUpdateInput
-) {
-  return prisma.task.update({
-    where: {
-      id,
-    },
-    data,
-  });
-}
-
-async deleteByUser(id: string, userId: string) {
-  return prisma.task.delete({
-    where: {
-      id,
-      userId,
-    },
-  });
-}
 }
 
 export default new TaskRepository();

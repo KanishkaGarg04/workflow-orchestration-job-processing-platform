@@ -25,6 +25,7 @@ async createTask(
   taskQueue.add({
     id: task.id,
   });
+  console.log("Queue Size:", taskQueue.size());
 
   return task;
 }
@@ -46,7 +47,7 @@ async createTask(
   }
 
  async getTask(id: string, userId: string) {
-  return taskRepository.findById(id, userId);
+  return taskRepository.findByIdAndUser(id, userId);
 }
 
 async updateTask(id: string, userId: string, data: any) {
