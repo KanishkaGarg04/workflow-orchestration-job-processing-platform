@@ -62,7 +62,7 @@ class TaskController {
   async getById(req: Request, res: Response) {
     try {
       const task = await taskService.getTask(
-  req.params.id,
+  req.params.id as string,
   req.user!.id
 );
 
@@ -89,7 +89,7 @@ class TaskController {
   async update(req: Request, res: Response) {
     try {
       const task = await taskService.updateTask(
-  req.params.id,
+  req.params.id as string,
   req.user!.id,
   req.body
 );
@@ -110,7 +110,7 @@ class TaskController {
   async delete(req: Request, res: Response) {
     try {
      await taskService.deleteTask(
-  req.params.id,
+  req.params.id as string,
   req.user!.id
 );
 

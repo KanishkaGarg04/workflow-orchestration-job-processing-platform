@@ -14,10 +14,10 @@ export default function DashboardLayout({
   return (
     <div className="flex min-h-screen bg-[#FAFAFA]">
 
-      {/* Sidebar */}
+     
       <Sidebar />
 
-      {/* Main Content */}
+      
       <div className="flex flex-1 flex-col">
 
         <Navbar />

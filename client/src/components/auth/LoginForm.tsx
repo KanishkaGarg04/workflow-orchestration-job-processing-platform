@@ -32,10 +32,16 @@ export default function LoginForm() {
         password,
       });
 
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
+     localStorage.setItem(
+  "token",
+  response.data.accessToken
+);
+
+// Optional: save user info too
+localStorage.setItem(
+  "user",
+  JSON.stringify(response.data.user)
+);
 
       toast.success("Welcome back!");
 

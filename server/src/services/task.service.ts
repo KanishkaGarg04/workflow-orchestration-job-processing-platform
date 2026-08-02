@@ -25,7 +25,7 @@ async createTask(
   taskQueue.add({
     id: task.id,
   });
-  console.log("Queue Size:", taskQueue.size());
+  
 
   return task;
 }

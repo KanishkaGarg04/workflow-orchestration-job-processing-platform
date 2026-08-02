@@ -1,5 +1,6 @@
 import taskQueue from "../queues/task.queue";
 import taskRepository from "../repositories/task.repository";
+import { getIO } from "../config/socket";
 
 class TaskWorker {
   start() {
@@ -30,6 +31,11 @@ class TaskWorker {
             status: "PROCESSING",
           }
         );
+        getIO().emit("taskUpdated", {
+              id: job.id,
+              status: "PROCESSING",
+          });
+
 
         console.log("⏳ Working...");
 
@@ -47,6 +53,12 @@ class TaskWorker {
           }
         );
 
+        getIO().emit("taskUpdated", {
+            id: job.id,
+            status: "COMPLETED",
+        });
+
+
         console.log(`✅ Completed Task ${job.id}`);
       } catch (error) {
         console.error("Worker Error:", error);
@@ -62,6 +74,11 @@ class TaskWorker {
                 status: "FAILED",
               }
             );
+            getIO().emit("taskUpdated", {
+                id: job.id,
+                status: "FAILED",
+            });
+
           }
         } catch (err) {
           console.error("Failed to update task status:", err);
