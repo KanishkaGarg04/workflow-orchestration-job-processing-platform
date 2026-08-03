@@ -380,5 +380,3 @@ DELETE /api/tasks/:id
 # 👨‍💻 Author
 
 **Kanishka Garg**
-
-Built as part of the **Saarthi AI Full Stack Developer Technical Assessment** using a modern full-stack TypeScript architecture.
