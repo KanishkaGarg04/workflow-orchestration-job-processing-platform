@@ -1,6 +1,6 @@
 # 🚀 TaskFlow – Task Automation & Job Processing Platform
 
-A modern full-stack task automation platform built as part of the **Saarthi AI Full Stack Developer Technical Assessment**.
+A modern full-stack task automation platform built as part of the ** Full Stack Developer Technical Assessment**.
 
 The application allows users to securely authenticate, create and manage tasks, process them asynchronously using a background worker, and monitor real-time execution through a responsive dashboard. The project demonstrates scalable backend architecture, asynchronous job processing, real-time communication, and modern frontend development practices.
 
